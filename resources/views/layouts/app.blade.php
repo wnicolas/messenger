@@ -17,7 +17,10 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    {{-- Original del framework --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    {{-- Customizado bootswatch pulso --}}
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
