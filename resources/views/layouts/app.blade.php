@@ -20,7 +20,7 @@
     {{-- Original del framework --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     {{-- Customizado bootswatch pulso --}}
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"> --}}
 </head>
 <body>
     <div id="app">
