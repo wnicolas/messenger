@@ -22,6 +22,7 @@ window.Vue = require('vue').default;
 Vue.component('contact-component', require('./components/ContactComponent.vue').default);
 Vue.component('contact-list-component', require('./components/ContactListComponent.vue').default);
 Vue.component('active-conversation-component', require('./components/ActiveConversationComponent.vue').default);
+Vue.component('message-conversation-component', require('./components/MessageConversationComponent.vue').default);
 
 
 /**
