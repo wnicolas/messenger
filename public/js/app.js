@@ -1914,7 +1914,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       messages: [],
-      newMessage: ""
+      newMessage: "",
+      contact_id: 3
     };
   },
   mounted: function mounted() {
@@ -1924,7 +1925,7 @@ __webpack_require__.r(__webpack_exports__);
     getMessages: function getMessages() {
       var _this = this;
 
-      axios.get("message").then(function (response) {
+      axios.get("message?contact_id=".concat(this.contact_id)).then(function (response) {
         _this.messages = response.data;
       });
     },
@@ -1932,7 +1933,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var params = {
-        to_id: 2,
+        to_id: this.contact_id,
         content: this.newMessage
       };
       axios.post("message", params).then(function (response) {
@@ -1980,13 +1981,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['estado'],
+  props: {
+    estado: String,
+    conversation: Object
+  },
   data: function data() {
     return {
-      name: 'Juan Ramos',
-      lastMessage: 'Tú: Hasta luego',
-      lastTime: '1:37 pm',
-      active: ''
+      active: '',
+      urlFoto: 'https://picsum.photos/60/60?random='
     };
   },
   mounted: function mounted() {
@@ -2029,13 +2031,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    return {};
+    return {
+      conversations: []
+    };
+  },
+  mounted: function mounted() {
+    this.getConversation();
+  },
+  methods: {
+    getConversation: function getConversation() {
+      var _this = this;
+
+      axios.get('conversations').then(function (response) {
+        _this.conversations = response.data;
+      });
+    }
   }
 });
 
@@ -38027,43 +38039,38 @@ var render = function() {
     },
     [
       _c("div", { staticClass: "row" }, [
-        _vm._m(0),
+        _c("div", { staticClass: "col col-12 col-lg-3" }, [
+          _c("img", {
+            staticClass: "p-1 rounded-circle mx-auto d-block",
+            attrs: {
+              src: _vm.urlFoto + _vm.conversation.id,
+              alt: "Cinque Terre"
+            }
+          })
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "col col-6  d-none d-lg-block" }, [
           _c("div", { staticClass: "align-self-center" }, [
-            _c("p", { staticClass: "mb-1 pt-3" }, [_vm._v(_vm._s(_vm.name))]),
+            _c("p", { staticClass: "mb-1 pt-3" }, [
+              _vm._v(_vm._s(_vm.conversation.contact_name))
+            ]),
             _vm._v(" "),
             _c("p", { staticClass: "text-muted small" }, [
-              _vm._v(_vm._s(_vm.lastMessage))
+              _vm._v(_vm._s(_vm.conversation.last_message))
             ])
           ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "col col-3  d-none d-lg-block" }, [
           _c("p", { staticClass: "text-muted small align-self-center" }, [
-            _vm._v(_vm._s(_vm.lastTime))
+            _vm._v(_vm._s(_vm.conversation.last_Time))
           ])
         ])
       ])
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col col-12 col-lg-3" }, [
-      _c("img", {
-        staticClass: "p-1 rounded-circle mx-auto d-block",
-        attrs: {
-          src: "https://picsum.photos/60/60?random=1",
-          alt: "Cinque Terre"
-        }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -38092,13 +38099,12 @@ var render = function() {
     _c(
       "ul",
       { staticClass: "list-group" },
-      [
-        _c("contact-component", { attrs: { estado: "dark" } }),
-        _vm._v(" "),
-        _c("contact-component", { attrs: { estado: "" } }),
-        _vm._v(" "),
-        _c("contact-component", { attrs: { estado: "secondary" } })
-      ],
+      _vm._l(_vm.conversations, function(conversation) {
+        return _c("contact-component", {
+          key: conversation.id,
+          attrs: { conversation: conversation }
+        })
+      }),
       1
     )
   ])

@@ -15,16 +15,22 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
-        $userId=Auth::user()->id;
+        $userId = Auth::user()->id;
+        $contactId = $request->contact_id;
+
         return Message::select(
             'id',
             DB::raw("IF(`from_id`=$userId,1,0) as writenByMe"),
             'content',
             'created_at'
-            )->get();
+        )->where(function ($query) use ($userId, $contactId) {
+            $query->where('from_id', $userId)->where('to_id', $contactId);
+        })->orWhere(function ($query)  use ($userId, $contactId) {
+            $query->where('from_id', $contactId)->where('to_id', $userId);
+        })->get();
     }
 
     /**
@@ -45,15 +51,15 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        $message=new Message();
-        $message->from_id=Auth::user()->id;
-        $message->to_id=$request->to_id;
-        $message->content=$request->content;
-        
-        $saved=$message->save();
+        $message = new Message();
+        $message->from_id = Auth::user()->id;
+        $message->to_id = $request->to_id;
+        $message->content = $request->content;
 
-        $data=[];
-        $data['success']=$saved;
+        $saved = $message->save();
+
+        $data = [];
+        $data['success'] = $saved;
 
         return $data;
     }
@@ -77,8 +83,6 @@ class MessageController extends Controller
      */
     public function edit($id)
     {
-       
-
     }
 
     /**

@@ -13,11 +13,7 @@
     
         <ul class="list-group">
     
-            <contact-component estado="dark"> </contact-component>
-    
-            <contact-component estado=""> </contact-component>
-    
-            <contact-component estado="secondary"></contact-component>
+            <contact-component v-for="conversation in conversations" :key="conversation.id" :conversation="conversation"> </contact-component>
     
         </ul>
     
@@ -28,8 +24,18 @@
 export default {
     data() {
         return {
-
+            conversations:[]
         };
+    },
+    mounted() {
+        this.getConversation();
+    },
+    methods: {
+        getConversation(){
+            axios.get('conversations').then((response)=>{
+                this.conversations=response.data;
+            });
+        }
     },
 }
 </script>

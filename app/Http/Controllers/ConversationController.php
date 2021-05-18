@@ -15,7 +15,14 @@ class ConversationController extends Controller
      */
     public function index()
     {
-        return Conversation::where('user_id',Auth::user()->id)->get();
+        return Conversation::where('user_id', Auth::user()->id)->get([
+            'id', 
+            'contact_id', 
+            'has_blocked', 
+            'listen_notifications', 
+            'last_message', 
+            'last_Time'
+        ]);
     }
 
     /**
