@@ -18,7 +18,11 @@
             </div>
 
             <div class="card-footer">
-              <form action="" @submit.prevent="postMessage()" autocomplete="off">
+              <form
+                action=""
+                @submit.prevent="postMessage()"
+                autocomplete="off"
+              >
                 <div class="input-group mb-3">
                   <input
                     type="text"
@@ -42,11 +46,11 @@
     </div>
     <div class="col col-4">
       <img
-        src="https://picsum.photos/60/60?random=3"
+        :src="urlFoto"
         class="p-1 rounded-circle mx-auto d-block"
       />
 
-      <p>Usuario seleccionado</p>
+      <p>{{contact_name}}</p>
 
       <hr />
 
@@ -64,23 +68,23 @@
 
 <script>
 export default {
-  props: ["estado"],
+  props: {
+    estado: String,
+    contact_id: Number,
+    contact_name:String,
+    messages: Array,
+  },
   data() {
     return {
-      messages: [],
+      
       newMessage: "",
-      contact_id:3,
+      urlFoto:''
     };
   },
   mounted() {
-    this.getMessages();
   },
   methods: {
-    getMessages() {
-      axios.get(`message?contact_id=${this.contact_id}`).then((response) => {
-        this.messages = response.data;
-      });
-    },
+    
     postMessage() {
       const params = {
         to_id: this.contact_id,
@@ -88,11 +92,11 @@ export default {
       };
       axios.post("message", params).then((response) => {
         if (response.data.success) {
-          this.getMessages();
           this.newMessage = "";
         }
       });
     },
-  },
+  }, 
+ 
 };
 </script>

@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Models\Message;
 
@@ -30,6 +31,8 @@ class MessageObserver
             $conversation->save();
             
         }
+
+        event(new MessageSent($message));
     }
 
     /**

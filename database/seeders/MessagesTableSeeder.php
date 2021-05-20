@@ -43,19 +43,6 @@ class MessagesTableSeeder extends Seeder
         Message::create(
             [
 
-                'from_id' => 2,
-
-                //to
-                'to_id' => 1,
-
-                //content
-                'content' => 'Bien gracias, ¿y tú?',
-            ]
-        );
-
-        Message::create(
-            [
-
                 'from_id' => 1,
 
                 //to
